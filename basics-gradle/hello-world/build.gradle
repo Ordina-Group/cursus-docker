@@ -1,0 +1,28 @@
+//buildscript {
+ //   repositories {
+//        mavenLocal()
+//        maven { url "http://mavenrepository:8081/artifactory/simple/libs-release" }
+//        jcenter()
+//    }
+//}
+
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenLocal()
+    maven { url "http://mavenrepository:8081/artifactory/simple/libs-release" }
+    jcenter()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+mainClassName = 'helloworld.Application'
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
+
