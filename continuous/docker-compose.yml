@@ -1,0 +1,9 @@
+git:
+  image: gitlab/gitlab-ce:8.0.4-ce.1
+  volumes:
+    - ./.data/gitlab/config:/etc/gitlab
+    - ./.data/gitlab/logs:/var/log/gitlab
+    - ./.data/gitlab/data:/var/opt/gitlab
+  ports:
+    - "2222:22"
+    - "80:80"
