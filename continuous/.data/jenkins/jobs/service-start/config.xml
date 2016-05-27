@@ -5,8 +5,8 @@
   <keepDependencies>false</keepDependencies>
   <properties>
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.9.8">
-      <taskName>package</taskName>
-      <stageName>build</stageName>
+      <taskName>start</taskName>
+      <stageName>QA</stageName>
     </se.diabol.jenkins.pipeline.PipelineProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
@@ -17,20 +17,7 @@
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <customWorkspace>${SOURCE_BUILD_WORKSPACE}</customWorkspace>
-  <builders>
-    <hudson.plugins.gradle.Gradle plugin="gradle@1.24">
-      <description></description>
-      <switches></switches>
-      <tasks>buildImage</tasks>
-      <rootBuildScriptDir></rootBuildScriptDir>
-      <buildFile></buildFile>
-      <gradleName>(Default)</gradleName>
-      <useWrapper>true</useWrapper>
-      <makeExecutable>false</makeExecutable>
-      <fromRootBuildScriptDir>true</fromRootBuildScriptDir>
-      <useWorkspaceAsHome>false</useWorkspaceAsHome>
-    </hudson.plugins.gradle.Gradle>
-  </builders>
+  <builders/>
   <publishers>
     <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.17">
       <configs>
@@ -38,7 +25,7 @@
           <configs>
             <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
           </configs>
-          <projects>service-start</projects>
+          <projects>service-test</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
