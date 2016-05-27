@@ -5,7 +5,7 @@
   <keepDependencies>false</keepDependencies>
   <properties>
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.9.8">
-      <taskName>start</taskName>
+      <taskName>test</taskName>
       <stageName>QA</stageName>
     </se.diabol.jenkins.pipeline.PipelineProperty>
   </properties>
@@ -25,8 +25,8 @@
           <configs>
             <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
           </configs>
-          <projects>service-tests</projects>
-          <condition>SUCCESS</condition>
+          <projects>service-stop</projects>
+          <condition>ALWAYS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
       </configs>

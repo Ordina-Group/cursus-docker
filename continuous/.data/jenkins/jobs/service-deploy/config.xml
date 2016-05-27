@@ -5,8 +5,8 @@
   <keepDependencies>false</keepDependencies>
   <properties>
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.9.8">
-      <taskName>start</taskName>
-      <stageName>QA</stageName>
+      <taskName>deploy</taskName>
+      <stageName>Release</stageName>
     </se.diabol.jenkins.pipeline.PipelineProperty>
   </properties>
   <scm class="hudson.scm.NullSCM"/>
@@ -18,19 +18,6 @@
   <concurrentBuild>false</concurrentBuild>
   <customWorkspace>${SOURCE_BUILD_WORKSPACE}</customWorkspace>
   <builders/>
-  <publishers>
-    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.17">
-      <configs>
-        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-          <configs>
-            <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
-          </configs>
-          <projects>service-tests</projects>
-          <condition>SUCCESS</condition>
-          <triggerWithNoParameters>false</triggerWithNoParameters>
-        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
-      </configs>
-    </hudson.plugins.parameterizedtrigger.BuildTrigger>
-  </publishers>
+  <publishers/>
   <buildWrappers/>
 </project>
