@@ -5,7 +5,7 @@
   <keepDependencies>false</keepDependencies>
   <properties>
     <se.diabol.jenkins.pipeline.PipelineProperty plugin="delivery-pipeline-plugin@0.9.8">
-      <taskName>stop</taskName>
+      <taskName>sonar</taskName>
       <stageName>QA</stageName>
     </se.diabol.jenkins.pipeline.PipelineProperty>
   </properties>
@@ -25,7 +25,7 @@
           <configs>
             <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
           </configs>
-          <projects>service-sonar</projects>
+          <projects>service-deploy</projects>
           <condition>SUCCESS</condition>
           <triggerWithNoParameters>false</triggerWithNoParameters>
         </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
