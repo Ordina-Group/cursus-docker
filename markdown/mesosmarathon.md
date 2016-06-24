@@ -61,9 +61,9 @@ The stack consists of 7	Docker images
 <small>
 - **zookeeper:** <br>Software that is used to coordinate the master nodes
 
-- **mesosmaster:** <br>The master a node in the cluster and orchestrates the running of tasks on slaves
+- **mesosmaster:** <br>The Mesos Master is a node in the cluster which orchestrates the running of tasks on slaves
 
-- **mesosslave:** <br>A Mesos slave is a Mesos instance which offers resources to the cluster. They are the ‘worker’ instances - tasks are allocated to the slaves by the Mesos master.
+- **mesosslave:** <br>A Mesos Slave is a Mesos instance which offers resources to the cluster. They are the ‘worker’ instances - tasks are allocated to the slaves by the Mesos master.
 
 - **marathon:** <br> Organizes and manages services deployed (what is deployed where, what ports, what configuration, etc)
 
@@ -87,7 +87,7 @@ Marathon manages the services that will manage deployed on the Mesos cluster. Th
 
 
 ## Stack ingedients - Others
-The Zookeeper, Gateway and Secretary images are here support Mesos or Marathon, but are not within our scope of interrest. There needed to get the show on the road, but will not require your attention.
+The Zookeeper, Gateway and Secretary images are here support Mesos or Marathon, but are not within our scope of interrest. They are needed to get the show on the road, but will not require your attention.
 
 The marathonsubmit image however does require some attention. More on that later in this course.
 
