@@ -48,7 +48,7 @@ docker run -d --name postgres <image> <command>
 - Secondly we link our database to our web containter
 ```
 # EXAMPLE ONLY
-docker run -d --link postgres:db --name web <image> <command
+docker run -d --link postgres:db --name web <image> <command>
 ```
 
 !SUB
@@ -63,7 +63,7 @@ Next we will build a simple cluster containing.
 !SUB
 ### Building a cluster - getting sources
 Clone the following git repo.
-```
+```bat
 git clone https://github.com/srenkens/simple-docker-cluster.git
 cd simple-docker-cluster
 ```
@@ -136,8 +136,8 @@ for i in {0..99}; do curl http://localhost; echo ""; done
 
 !SUB
 ### Clean up
-- Docker ps shows you the conainters
-- Docker rm removes conainters
+- Docker ps shows you the containers
+- Docker rm removes containers
 
 ```
 # -v removes inplicit mounts volumes
