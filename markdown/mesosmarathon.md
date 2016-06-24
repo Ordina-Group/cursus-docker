@@ -25,7 +25,6 @@ Marathon is designed to launch long-running applications, and, in Mesosphere, se
 ## 
 - Because installing a complex stack like this is not the goal of this course, we will provide you with your own Mesos and Marathon stack.
 - Execute the commands below to clean up and get the cluster up and running
-- Building the stack will take some time. Continue in the next slide if you do not want to follow the progress of building the stack
 
 ```
 cd /mnt/sda1/cursus-docker/mesos-marathon
@@ -46,6 +45,7 @@ docker-compose build
 docker-compose up
 
 ```
+- Building the stack will take some time. Continue in the next slide if you do not want to follow the progress of building the stack
 
 
 ### Stack ingredients

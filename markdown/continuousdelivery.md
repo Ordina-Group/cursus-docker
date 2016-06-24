@@ -190,11 +190,11 @@ delivery-pipeline-plugin:0.9.8
 
 ### Setting up Jenkins - docker-compose
 The containers for our Continuous Delivery environment are managed by Docker Compose, as seen for GitLab. Now we will add the Jenkins container to the configuration.
-- Create a dir for Jenkins **data**
+- First adjust Jenkins **data** folder with sufficient rights
 ```
 # Navigate to the /mnt/sda1/cursus-docker/continuous directory first
 cd /mnt/sda1/cursus-docker/continuous
-sudo mkdir -p .data/jenkins && sudo chmod 777 .data/jenkins
+sudo chmod 777 .data/jenkins
 ```
 - Edit the file `docker-compose.yml`, add the following content at the end.
 
