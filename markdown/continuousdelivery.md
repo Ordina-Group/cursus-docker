@@ -590,6 +590,7 @@ We will add Sonar to keep track of our code quality.
   - Switch back to the `ssh` session of our Docker workshop VM
   - Stop the docker services using `docker-compose` 
 ```
+cd /mnt/sda1/cursus-docker/continuous
 docker-compose stop
 ```
 
