@@ -4,8 +4,10 @@
 - Movietime
 - Docker Toolbox setup (hands-on)
 - Docker ABC's (hands-on)
-- Sample use-case with Maven (hands-on)
+- Simple use-case with Maven (hands-on)
 - Using Docker in a Continuous Delivery setup (hands-on)
+- Mesos and Marathon (hands-on)
+
 
 
 ## Who are we?
