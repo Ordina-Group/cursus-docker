@@ -451,7 +451,7 @@ This job will stop and remove the earlier created containers.
   - *Advanced* - Ignore if not found to TRUE
   - *Advanced* - Remove volumes to TRUE
   - *Advanced* - Force remove to TRUE
-- Save and test by starting the `main` project.
+- Save and test by starting the `Stickynote pipeline` (or `service-main` project).
 
 
 ### The stop job (RECAP)
@@ -500,7 +500,7 @@ Background: <br>This piece of bash script replaces every occurence of 'dockerhos
     integrationTest
     jmeterRun
 	```
-- Save and test by starting the `service-main` project.
+- Save and test by starting the `Stickynote pipeline`.
 
 
 ## The deploy job
@@ -555,7 +555,7 @@ The deploy job deploys (no shit) our's service to a "production (demo)" environm
   demo_db 27017
   demo_service 8080
   ```
-- Save and test by starting the `service-main` project.
+- Save and test by starting the `Stickynote pipeline`.
 
 
 ### The deploy job (RECAP)
