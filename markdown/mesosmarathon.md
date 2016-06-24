@@ -20,14 +20,6 @@ Marathon is a popular PaaS or container orchestration system scaling to thousand
 Marathon is designed to launch long-running applications, and, in Mesosphere, serves as a replacement for a traditional init system. It has many features that simplify running applications in a clustered environment, such as high-availability, node constraints, application health checks, an API for scriptability and service discovery, and an easy to use web user interface.
 
 
-## Some internals
-- TODO
-- TODO
-- TODO
-- TODO
-- TODO
-
-
 # Let's get started
 
 ## 
@@ -62,7 +54,7 @@ The stack consists of 7	Docker images
 
 - **mesosmaster:** <br>The master a node in the cluster and orchestrates the running of tasks on slaves
 
-- **mesosslave:** <br>A Mesos slave is a Mesos instance which offers resources to the cluster. They are the ‘worker’ instances - tasks are allocated to the slaves by the Mesos master.
+- **mesosslave:** <br>A Mesos slave is a Mesos instance which offers resources to the cluster. They are the ï¿½workerï¿½ instances - tasks are allocated to the slaves by the Mesos master.
 
 - **marathon:** <br> Organizes and manages services deployed (what is deployed where, what ports, what configuration, etc)
 
@@ -219,3 +211,22 @@ same as demo app asside from the following
 - Change healthchecks path to /
 
 <slides-url>docker-workshop/solutions/mesosmarathon/wolf3d.yml
+
+
+## Did you defeat the boss!?
+Got the game running? Well done!
+![pipeline](images/wolfenstein3d-finshed.jpg)
+
+
+## More information
+If you wanna know more about Docker Clustering on Mesos with Marathon then the following video might be interesting. <br>
+<iframe class="stretch" src="https://www.youtube.com/embed/hZNGST2vIds" frameborder="0" allowfullscreen></iframe>
+
+
+## END of chapter
+The Mesos and Marathon stack which you have seen in this chapter is a basic setup of the stack. In a datacenter it could scale out to control large number of servers with even more running containers.
+
+Next to Kubernetes, Mesos and Marathon have long been the stacks to look at if you wanted to build a Docker cluster with orchstration. Slowly but surely other competitors are arising. Some alternatives to this stack are:
+ - Mesosphere DCOS (https://mesosphere.com/) <br>  -    essentially the Mesos Marathon successor
+ - Rancher (http://rancher.com/)
+ - Or other cloud based solutions like CodeFresh (https://codefresh.io/)
