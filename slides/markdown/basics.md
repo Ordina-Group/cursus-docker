@@ -9,24 +9,21 @@ The next slides briefly explain the docker concepts and commands that you need t
 
 
 ### Prerequisites
-- Start a Docker Quickstart Terminal
-- Known your `docker-machine IP`. You will need it later on
- - In the Quickstart terminal type:
+If you have closed the Docker Quickstart Terminal, open it again.
+
+Here is what we've done there so far:
 
 ```
-docker-machine ip workshop
-```
+# ask for the ip address
+$ docker-machine ip workshop
 
-- SSH into your boot2docker VM
+# start a ssh session
+$ docker-machine ssh workshop
 
-```
-docker-machine ssh workshop
-```
-
-- Make sure you have the GIT repo cloned (see setup chapter for defaults)
-
-```
+# clone our git repository
 docker@workshop:~$ git clone https://github.com/OrdinaNederland/cursus-docker
+
+# move it to a persistent location
 docker@workshop:~$ sudo mv cursus-docker /mnt/sda1/
 ```
 
@@ -151,7 +148,7 @@ $ docker run -p 8080:80 --rm starter/docker
 `http://< your-docker-machine-ip >:8080/`
 - You might need a Ctrl-F5
 - Verify that your new ```index.html``` is in place
-- Once done hit Ctrl-c (in the terminal) to stop the container
+- Once done hit Ctrl-C (in the terminal) to stop the container
 
 
 ### Running a web server with custom content (3/3)
@@ -166,15 +163,15 @@ In the previous example we added our static content to the image with a docker b
 $ cd /mnt/sda1/cursus-docker/basics-docker/nginx
 $ docker run --rm -p 8080:80 -v ${PWD}/via-mount:/usr/share/nginx/html nginx
 ```
-- Once done hit Ctrl-c (in the terminal) to stop the container
+- Once done hit Ctrl-C (in the terminal) to stop the container
 
 
 ### Container linking
 - Docker has a linking system that allows you to link multiple containers together and send connection information from one to another.
 - When containers are linked, information about a source container can be sent to a recipient container.
 - To establish links, Docker relies on the names of your containers.
-
-**An example(!)**
+----
+** For example (do NOT execute this) **
 - First we create a container for our database.
 
 ```
@@ -206,7 +203,7 @@ $ sudo ./install-compose.sh
 
 ### Docker Compose
 - With Compose we create two containers that are linked.
-- The first container contains a python application that serves a simple web page with a counter. This container will be build by Compose.
+- The first container contains a python application that serves a simple web page with a counter. This container will be built by Compose.
 - The second container contains a Redis key value store, to store the counter.
 
 ```
@@ -220,8 +217,8 @@ $ cat docker-compose.yml
 $ docker-compose up
 ```
 - Inspect by curl or a browser the web app is working.
-- Hint port * **is not** * 8080
-- Use Ctrl-c to stop the container
+- Hint: port * **is not** * 8080
+- Use Ctrl-C to stop the container
 
 
 ### Clean up

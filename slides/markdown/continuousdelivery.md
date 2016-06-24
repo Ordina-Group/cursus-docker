@@ -6,9 +6,9 @@
 
 ## Some internals
 - You will build a Continuous Delivery setup for a simple REST service based on Spring Boot
-- The REST service is a services which provides "Sticky Notes" functionality
-- Data of the Sticky Note REST service will be stored in a MongoDB
-- The Sticky Notes REST service is build using gradle
+- The REST service is a service which provides "Sticky Notes" functionality
+- Data of the Sticky Notes REST service will be stored in a MongoDB
+- The Sticky Notes REST service is built using Gradle
 - We build a fat jar and distribute that jar using Docker controlled by Jenkins
 
 
@@ -24,28 +24,26 @@ These are the jobs that you will configure in Jenkins.
 
 
 # ..But first... 
-#...some preperations...
+#...some preparations...
 
 
 ## Windows and less then 20GB on the C disk ?? (1/3)
 ### You're screwed... but there is a solution
-We need to move the docker-machine data to a disk with more free space
+We need to move the docker-machine data to a disk with more free space. Luckily you have the D drive for that!
 - Exit from the SSH session of the `workshop` machine
-
-```
+    ```
 docker@workshop:~$ exit
-```
+    ```
 - Stop the workshop machine
-
-```
+    ```
 docker-machine stop workshop
-```
+    ```
 - Do the same for other running docker-machines (you can list them with docker-machine ls)
 - Continue on next slide
 
 
 ## Windows and less then 20GB on the C disk  (2/3)
-- Using Windows explorer, create a folder on a disk that does have more then 20GB available (ex: d:\docker-machines)
+- Using Windows explorer, create a folder on a disk that does have more then 20GB available (e.g. `D:\docker-machines`)
 - Using Windows explorer, move the folder `C:\Users\<username>\.docker\machine` to your created directory.
 - Open a Command prompt with administrator rights 
   - (startmenu, type `cmd`, right-click `cmd`, run as administrator)
@@ -58,22 +56,19 @@ mklink /D  c:\Users\<username>\.docker\machine d:\docker-machines\machine
 ## Windows and less then 20GB on the C disk  (3/3)
 - Return to your quickstart terminal
 - Start the workshop machine
-
-```
+    ```
 docker-machine start workshop
-```
+    ```
 - SSH back into the workshop
-
-```
+    ```
 docker-machine ssh workshop
-```
+    ```
 - Reinstall docker-compose
-
-```
+    ```
 # Navigate to the basics-docker/ directory.  
 $ cd /mnt/sda1/cursus-docker/basics-docker/compose
 $ sudo ./install-compose.sh
-```
+    ```
 - Done
 
 
@@ -88,10 +83,10 @@ $ sudo ./install-compose.sh
 
 ### Setting up GitLab (docker-compose)	
 - The containers that we need for our Continuous Delivery environment will be managed by Docker Compose. Later we will add more.
-- You will find a docker-compose.yml file in /mnt/sda1/cursus-docker/continuous. For now this file only contains one container definition for GitLab, our Git server.
+- You will find a `docker-compose.yml` file in `/mnt/sda1/cursus-docker/continuous`. For now this file only contains one container definition for GitLab, our Git server.
 - (Setup instructions on the next slide)
 
-```	
+```json
 git:
   image: gitlab/gitlab-ce:8.0.4-ce.1
   volumes:
@@ -106,7 +101,7 @@ git:
 
 ### Setting up GitLab - Start
 - To test our compose file we will
- - Start the GitLAB container by using the docker-compose tool
+ - Start the GitLAB container by using the `docker-compose` tool
  - Check the logs of GitLAB container
 - Execute the following commands:
 
@@ -129,8 +124,8 @@ Let's perform the basic configuration of GitLAB
 
 - Start a webbrowser and browse to: `http://<< docker-machine-ip >>/`
 - Login with the default user and password.
-  - username: root
-  - password: 5iveL!fe
+  - username: `root`
+  - password: `5iveL!fe`
 - Next you have to set a new password
  - If you wanna be lazy.. you can change it to the original `5iveL!fe` password
 - After setting the password login again.
@@ -140,22 +135,22 @@ Let's perform the basic configuration of GitLAB
 We will clone a remote repo which contains our StickyNote sources. That cloned repo will be served by GitLAB. 
 
 - Go to create new project, fill in the form as follows:
-  - Project path: stickynote
+  - Project path: `stickynote`
   - Import project from: "git Any repo by URL" `https://github.com/OrdinaNederland/cursus-docker-sampleapp.git`
-  - Visibility Level: Public
+  - Visibility Level: `Public`
 - Create project
 
 You can now check the sources (and change them if you like) using the GitLAB webinterface.
 
 
 ## Setting up Jenkins
-Jenkins will be used as our main Continuous Delivery tool. It will build our code, our docker images and manage our Docker containers
+Jenkins will be used as our main Continuous Delivery tool. It will build our code, our docker images and manage our Docker containers.
 
 
 ### Setting up Jenkins - Dockerfile
 Jenkins is available as Docker image but for this workshop we build our own Jenkins image. We use the Jenkins base image.
-- Go to the `/mnt/sda1/cursus-docker/continuous` directory and create a folder called `jenkins`
-- In the newly created folder, create a file named `Dockerfile` with the following content.
+- Go to the `/mnt/sda1/cursus-docker/continuous/jenkins` folder. 
+- Create a file named `Dockerfile` with the following content:
 
 ```docker
 FROM jenkins:1.642.1
@@ -174,8 +169,8 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
 
 ### Setting up Jenkins - plugins
-- Since we try to automate most of the things we are doing, we also automate and manage our Jenkins plugins by specifying them in the plugins.txt file.
-- Create a file `plugins.txt` in the same dir as the `Dockerfile` and the following plugins to the file.  
+Since we try to automate most of the things we are doing, we also automate and manage our Jenkins plugins by specifying them in the `plugins.txt` file.
+You can find it in the same dir as the `Dockerfile`. It has the following content: 
 
 ```
 scm-api:0.2
@@ -195,8 +190,7 @@ delivery-pipeline-plugin:0.9.8
 
 ### Setting up Jenkins - docker-compose
 The containers for our Continuous Delivery environment are managed by Docker Compose, as seen for GitLab. Now we will add the Jenkins container to the configuration.
-- Create a dir for Jenkins data
-
+- Create a dir for Jenkins **data**
 ```
 # Navigate to the /mnt/sda1/cursus-docker/continuous directory first
 cd /mnt/sda1/cursus-docker/continuous
@@ -240,8 +234,8 @@ jenkins:
 
 ### Setting up Jenkins - docker-compose (RECAP)
 A little recap:	
-- We have defined our Jenkins container in a docker-compose file.
-  - The container will be build based on a Dockerfile in the directory `./jenkins`.
+  - We have defined our Jenkins container in a `docker-compose` file.
+  - The container will be built based on a Dockerfile in the directory `./jenkins`.
   - The container will mount the `jenkins_home` directory to the directory `.data/jenkins` on the host.
   - The container maps port `8080` from to container to `8080` on the localhost.
   - The container will have an extra entry in the host file to resolve the dockerhost for building images.
@@ -269,14 +263,12 @@ Jenkins requires some configuration before it can interact with Docker.
   - Open the Jenkins application in your browser
   - Go to: Manage Jenkins -> Configure system
   - Search for: `Docker Builder` and provide the url: `unix:///var/run/docker.sock`
-  - !! SAVE BEFORE TESTING THE CONNECTION !!
-  - Go to: Manage Jenkins -> Configure system
-  - Search for: `Docker Builder`
-  - `Test Connection`
+  - Press the **Apply** (Toepassen) button at the bottom of the page
+  - Now you can press `Test Connection`
 
 
-## Jenkins - Setting up delivery pipeline
-Now we are ready to set up our delivery pipeline. The pipeline is an aggregation of several small builds to build, test and deliver our service.
+## Jenkins - Delivery pipeline
+For this workshop Jenkins comes configured with several jobs that form a *Delivery Pipeline* : an aggregation of several small builds to build, test and deliver our service.
 
 ![pipeline](images/pipeline-complete.png)
 
@@ -285,62 +277,52 @@ Now we are ready to set up our delivery pipeline. The pipeline is an aggregation
 ![pipeline](images/pipeline-main.png)
 
 
-### Jenkins - Job main (1/2)
-The main job is a simple job that is responsible for checking out the StickyNote GIT repo. Everytime you want to start the pipeline, you will do so by starting this job.
+### Jenkins - Job main
+The **main** job is a simple job that is responsible for checking out the StickyNote GIT repo. Everytime you want to start the pipeline, you will do so by starting this job.
 
-
-### Jenkins - Job main (2/2)
-- Create new item
- - Item name: `service-main`
- - Type: `Free style project`
- - Delivery pipeline configuration: `Stage Name=build, Task Name=clean`
- - Source Code Management Git: http://git/root/stickynote.git (remember the linked container named git)
- - Add post build action: Trigger parameterized build on other projects
-   - projects to build: `service-build` (ignore non-existing error)
-   - Trigger when build is: stable
-   - Add parameters: predefined parameters
-    ```
+- Inspect the configuration of Jenkins item `service-main`
+- In the Delivery Pipeline Configuration it's put in the first **Stage** we called `build` with **Task Name** `clean`
+- It sets up a workspace with Git repo `http://git/root/stickynote.git` (remember the linked container was also named `git`)
+- Then it triggers the build of another project `service-build` with predefined parameters that are passed onto all the next items:
+    ```text
     SOURCE_BUILD_NUMBER=${BUILD_NUMBER}
     SOURCE_BUILD_WORKSPACE=${WORKSPACE}
     VERSION=1.0.${SOURCE_BUILD_NUMBER}
     ```
- - Save
 
 
 ## The Build job
 ![pipeline](images/pipeline-build.png)
 
 
-### Jenkins - Job build (1/2)
-The build job runs the Gradle "build" task. This compiles our code and run the unit tests.
+### Jenkins - Job build
+The **build** job runs the Gradle "build" task. This compiles our code and run the unit tests.
 
-
-### Jenkins - Job build (2/2)
-- Create new item
- - Item name: `service-build`
- - Type: `Free style project`
- - Delivery pipeline: `Stage Name=build, Task Name=build`
- - Advanced Project Options
-   - Use custom workspace directory: `${SOURCE_BUILD_WORKSPACE}`
- - Add build step: Invoke Gradle script
-   - Use gradle wrapper
-   - Tasks: `build`
- - Save, and test by starting the `service-main` job.
+- Inspect the configuration of Jenkins item `service-build`
+- In the Delivery Pipeline Configuration it's the `build` task in the first *Stage* also called `build`
+- The workspace directory is passed through from `service-main` with parameter `${SOURCE_BUILD_WORKSPACE}`
+- It invokes the task `build` of a Gradle script
+- Then it triggers the build of project `service-package` with the same set of predefined parameters
 
 
 ## The package job
 ![pipeline](images/pipeline-package.png)
 
 
-### Jenkins - Job package (1/3)
+### Jenkins - Job package (1/2)
 The package job creates a Docker image for our StickyNote service. The definition of this image is declared in a Dockerfile.
 
-- If you like to see how we build our docker image, you can inspect the `build.gradle` in GitLAB at this location:
- - /build.gradle  
-- The `Dockerfile` is located in the GIT repo at this location: 
- - /src/main/resources/docker/Dockerfile
+- Inspect the configuration of Jenkins item `service-package`
+- In the Delivery Pipeline Configuration it's the `package` task in the `build` stage
+- It invokes the task `buildImage` of a Gradle script. 
+- When finished it triggers the build of project `service-start`, which is the next pipeline stage.
 
-```
+
+### Jenkins - Job package (2/2)
+- If you like to see how we build our docker image, you can inspect the Gradle script in GitLAB located at `/build.gradle`  
+- The `Dockerfile` of the image it builds is located in the GIT repo at `/src/main/resources/docker/Dockerfile`
+
+```docker
 FROM java:8-jdk
 
 RUN echo 127.0.2.1 mongodb > /etc/hosts; cat /etc/hosts
@@ -353,24 +335,17 @@ CMD ["java","-jar","/stickynote-service.jar"]
 ```
 
 
-### Jenkins - Job package (2/3)
-- Create new item
-- Item name: `service-package`
-- Type: `Copy service-build`
-- Delivery pipeline: `Stage Name=build, Task Name=package`
-- Change build step: Invoke Gradle script
-  - Use gradle wrapper
-  - change: Tasks: `buildImage`
-- Save
+### Jenkins - Pipeline (1/2)
+- In the main screen of Jenkins you can find a tab called `Stickynote pipeline`. 
+- It has not ran yet, so there's nothing yet to see.
+- Start a build of the `service-main` project.
+- Switch to the pipeline view. Notice that `service-main` triggers `service-build` which triggers `service-package`.
 
 
-### Jenkins - Job package (3/3)
-- Configure job `service-build` to add a trigger.
-  - Add post build action: Trigger parameterized build on other projects
-    - projects to build: `service-package`
-    - Trigger when build is: `stable`
-    - Add parameters: current build parameters
-- Save and test by starting the `main` project.
+### Jenkins - Pipeline (2/2)
+- The pipeline will also go through the stages `QA` and `Release` we have not looked at yet. These jobs are still empty, so that won't hurt.
+
+![pipeline](images/pipeline-view.png)
 
 
 ## DockerUI
@@ -381,11 +356,11 @@ DockerUI is a web interface for the Docker Remote API. Is gives us a view of run
 
 ### Adding docker ui
 
-- Edit the docker-compose.yml (in /mnt/sda1/cursus-docker/continuous) and add the dockerui section
+- Edit `docker-compose.yml` (in `/mnt/sda1/cursus-docker/continuous`) and add the `dockerui` section
 
-```
+```json
 dockerui:
-  image: dockerui/dockerui
+  image: abh1nav/dockerui
   privileged: true
   ports:
     - "9090:9000"
@@ -393,67 +368,53 @@ dockerui:
     - /var/run/docker.sock:/var/run/docker.sock
 ```
 - Use `docker-compose up -d` to start the dockerui container.
-- Browse to http://<< docker-machine-ip >>:9090 to see which containers are running.
+- Browse to `http://<< docker-machine-ip >>:9090` to see which containers are running.
 
 
 ## The start job
 ![pipeline](images/pipeline-start.png)
 
 
-### Jenkins - Job service-start (1/5)
+### Jenkins - Job service-start (1/3)
 The start job will be creating and starting the StickyNote Docker container and the MongoDB database container.
 
+- Go edit the configuration in Jenkins of item `service-start`
+- In the Delivery Pipeline Configuration it's the `start` task in the `QA` stage
+- When finished it triggers the build of project `service-tests`, which in turn will trigger `service-stop`
 
-### Jenkins - Job service-start (2/5)
-- Create new item
- - Item name: `service-start`
- - Type: `Copy service-build`
- - Delivery pipeline: `Stage Name=QA, Task Name=start`
- - Remove build step gradle.
- - Add build step: Execute docker command
-   - Docker command: pull image
+
+### Jenkins - Job service-start (2/3)
+
+ - Add build step: **Execute docker command**
+   - Docker command: **pull image**
    - Image name: `mongo`
    - Tag: `3.0.6`
- - Add build step: Execute docker command
-   - Docker command: create container
+ - Add build step: **Execute docker command**
+   - Docker command: **create container**
    - Image name: `mongo:3.0.6`
    - Container name: `test_db`
 
 
-### Jenkins - Job service-start (3/5)
-- Add build step: Execute docker command
-  - Docker command: create container
+### Jenkins - Job service-start (3/3)
+- Add build step: **Execute docker command**
+  - Docker command: **create container**
   - Image name: `stickynote/stickynote-service:latest`
   - Container name: `test_service`
-  - Advanced - Links: `test_db:mongodb`
-- Add build step: Execute docker command
+  - *Advanced* - Links: `test_db:mongodb`
+- Add build step: **Execute docker command**
   - Docker command: start container(s)
   - Container ID(s): `test_db, test_service`
-  - Advanced - Port bindings: `8888:8080`
-  - Advanced - Wait for ports:
-  ```
+  - *Advanced* - Port bindings: `8888:8080`
+  - *Advanced* - Wait for ports:
+  ```text
   test_db 27017
   test_service 8080
   ```
-
-
-### Jenkins - Job service-start (4/5)
-- Change post build action: Trigger parameterized build on other projects
-  - projects to build: `service-stop`
-  - Don't mind the error about non-existing project, we'll fix that later.
-- Save
-
-
-### Jenkins - Job service-start (5/5)  
-- Configure job `service-package` to add a trigger.
-    - Add post build action: Trigger parameterized build on other projects
-      - projects to build: `service-start`
-      - Add parameters: current build parameters
 - Save
 
 
 ### The start job (RECAP)
-This job effectivly performs these Docker CLI command but then through the the Docker API.
+This job effectively performs these Docker CLI command but then through the the Docker API.
 ```
 # Pull and create MongoDB container
 docker pull mongodb:3.0.6
@@ -472,35 +433,29 @@ docker start test_db test_service
 ![pipeline](images/pipeline-stop.png)
 
 
-### Jenkins - Job service-stop (1/3)
-This jobs will stop and removing the earlier created containers.
+### Jenkins - Job service-stop (1/2)
+This job will stop and remove the earlier created containers.
+
+- Go edit the configuration in Jenkins of item `service-stop`
+- In the Delivery Pipeline Configuration it's the `stop` task in the `QA` stage
+- When finished it triggers the build of project `service-sonar`
 
 
-	
-### Jenkins - Job service-stop (2/3)
-- Create new item
- - Item name: `service-stop`
- - Type: `Copy service-start`
- - Delivery pipeline: `Stage Name=QA, Task Name=stop`
- - Remove all existing build steps.
- - Remove Trigger from Post-build Actions.
-
-
-### Jenkins - Job service-stop (3/3)
-- Add build step: Execute docker command
-  - Docker command: Stop container(s)
+### Jenkins - Job service-stop (2/2)
+- Add build step: **Execute docker command**
+  - Docker command: **Stop container(s)**
   - Container ID(s): `test_service, test_db`
-- Add build step: Execute docker command
-  - Docker command: Remove container(s)
+- Add build step: **Execute docker command**
+  - Docker command: **Remove container(s)**
   - Container ID(s): `test_service, test_db`
-  - Advanced - Ignore if not found to TRUE
-  - Advanced - Remove volumes to TRUE
-  - Advanced - Force remove to TRUE
+  - *Advanced* - Ignore if not found to TRUE
+  - *Advanced* - Remove volumes to TRUE
+  - *Advanced* - Force remove to TRUE
 - Save and test by starting the `main` project.
 
 
 ### The stop job (RECAP)
-This job effectivly performs these Docker CLI command but then through the the Docker API.
+This job effectively performs these Docker CLI command but then through the the Docker API.
 ```
 # Stop the containers
 docker stop test_service test_db
@@ -514,56 +469,45 @@ docker rm -f -v test-service test_db
 ![pipeline](images/pipeline-tst.png)
 
 
-### Jenkins - Job service-tests (1/4)
-The test job perform tests against our running container. Gradle will start a JMeter test and JMeter will use our test_service container as its target.
+### Jenkins - Job service-tests (1/3)
+The test job perform tests against our running container. Gradle will start a JMeter test and JMeter will use our `test_service` container as its target.
+
+- Go edit the configuration in Jenkins of item `service-tests`
+- In the Delivery Pipeline Configuration it's the `test` task in the `QA` stage
+- When finished it triggers the build of project `service-stop`
 
 
-### Jenkins - Job service-tests (2/4)
-- Create new item
- - Item name: `service-tests`
- - Type: `Copy service-build`
- - Delivery pipeline: `Stage Name=QA, Task Name=tests`
- - Change build step: Invoke Gradle script
-   - Use gradle wrapper
-   - Tasks (multiline!)
-     - line 1: `integrationTest`
-     - line 2: `jmeterRun`
- - Change post build action: Trigger parameterized build on other projects
-   - projects to build: `service-stop`
-   - Trigger when build is: Complete (always trigger)
-   - Add parameters: current build parameters
-
-
-### Jenkins - Job service-tests (3/4)
-- Configure job `service-tests`
-  - Add build step: Execute shell script
-    - Move this step above the Gradle build step
-    - Commando:
+### Jenkins - Job service-tests (2/3)
+- Add build step: **Execute shell script**
+  - Command:
 ```
 #!/bin/bash
 dockerhostip=$(/sbin/ip route|awk '/default/ { print $3 }')
 find src/it-test -type f -print0 | xargs -0 sed -i "s/dockerhost/$dockerhostip/g"
 find build -type f -print0 | xargs -0 sed -i "s/dockerhost/$dockerhostip/g"
 ```
-- Save
+
 <hr>
-Background: <br>This piece of bash script replaces every occurence of 'dockerhost' in your job's workspace files with the IP of your docker host machine.
+Background: <br>This piece of bash script replaces every occurence of 'dockerhost' in your job's workspace files with the IP address of your docker host machine.
 <hr>
 
 
-### Jenkins - Job service-tests (4/4)
-- Configure job `service-start` to change the post build trigger.
-  - Change post build action: Trigger parameterized build on other projects
-    - projects to build: `service-tests`
-    - Add parameters: current build parameters
-- Save and test by starting the `main` project.
+### Jenkins - Job service-tests (3/3)
+- Add build step: **Invoke Gradle script**
+   - Use gradle wrapper
+   - Tasks (click on arrow on the far right for multiline content!)
+    ```text
+    integrationTest
+    jmeterRun
+	```
+- Save and test by starting the `service-main` project.
 
 
 ## The deploy job
 ![pipeline](images/pipeline-deploy.png)
 
 
-### Jenkins - Job service-deploy (1/5)
+### Jenkins - Job service-deploy (1/4)
 The deploy job deploys (no shit) our's service to a "production (demo)" environment. After the tests have succeeded this job will:
 - Tag the image created in the `package` job.
 - Remove the current production containers
@@ -571,62 +515,51 @@ The deploy job deploys (no shit) our's service to a "production (demo)" environm
 - Start the newly created containers
 
 
-### Jenkins - Job service-deploy (2/5)
-- Create new item
- - Item name: `service-deploy`
- - Type: `Copy service-start`
- - Delivery pipeline: `Stage Name=Release, Task Name=deploy`
- - Remove all build steps (4).
- - Remove post build action: Trigger parameterized build on other projects
- - Add build step: Execute docker command
-   - Docker command: Tag image
+### Jenkins - Job service-deploy (2/4)
+- Go edit the configuration in Jenkins of item `service-deploy`.
+  This is the only task `deploy` of the `Release` stage of the Delivery Pipeline
+
+- Add build step: **Execute docker command**
+   - Docker command: **Tag image**
    - Name of image: `stickynote/stickynote-service:latest`
    - Target repository of the new tag: `stickynote/stickynote-service`
    - The tag to set: `${VERSION}`
 
 
-### Jenkins - Job service-deploy (3/5)
-- Add build step: Execute docker command
-  - Docker command: Remove container(s)
+### Jenkins - Job service-deploy (3/4)
+- Add build step: **Execute docker command**
+  - Docker command: **Remove container(s)**
   - Container ID(s): `demo_db, demo_service`
-  - Advanced - Ignore if not found to TRUE
-  - Advanced - Remove volumes to TRUE
-  - Advanced - Force remove to TRUE
-- Add build step: Execute docker command
-  - Docker command: create container
+  - *Advanced* - Ignore if not found to TRUE
+  - *Advanced* - Remove volumes to TRUE
+  - *Advanced* - Force remove to TRUE
+- Add build step: **Execute docker command**
+  - Docker command: **create container**
   - Image name: `mongo:3.0.6`
   - Container name: `demo_db`
 
 
-### Jenkins - Job service-deploy (4/5)
-- Add build step: Execute docker command
-  - Docker command: create container
+### Jenkins - Job service-deploy (4/4)
+- Add build step: **Execute docker command**
+  - Docker command: **create container**
   - Image name: `stickynote/stickynote-service:${VERSION}`
   - Container name: `demo_service`
-  - Advanced - Links: `demo_db:mongodb`
-- Add build step: Execute docker command
-  - Docker command: start container(s)
+  - *Advanced* - Links: `demo_db:mongodb`
+- Add build step: **Execute docker command**
+  - Docker command: **start container(s)**
   - Container ID(s): `demo_db, demo_service`
-  - Advanced - Port bindings: `8887:8080`
-  - Advanced - Wait for ports:
+  - *Advanced* - Port bindings: `8887:8080`
+  - *Advanced* - Wait for ports:
 
-  ```
+  ```text
   demo_db 27017
   demo_service 8080
   ```
-- Save
-
-
-### Jenkins - Job service-deploy (5/5)
-- Configure `service-stop` job
-- Add post build action: Trigger parameterized build on other projects
-  - projects to build: `service-deploy`
-  - Add parameters: current build parameters
-- Save and test by starting the `main` project.
+- Save and test by starting the `service-main` project.
 
 
 ### The deploy job (RECAP)
-This job effectivly performs these Docker CLI command but then through the the Docker API.
+This job effectively performs these Docker CLI command but then through the the Docker API.
 ```
 # Give the image a TAG
 docker tag stickynote/stickynote-service:latest stickynote/stickynote-service:<SOMEVERSIONNUMBER>
@@ -646,56 +579,26 @@ The sticky note (REST)application is available at:
 `http://<<machine-ip>>:8887/notes/`
 
 
-## Delivery pipeline
-Well... until now we did not get some visual feedback of our pipeline other then single failing jobs. Let's make that a bit more attractive.
-
-
-## Delivery pipeline view
-- On the Jenkins main page (where the jobs are listed)
- - Click on the (+) to add an extra tab.
- - Choose Delivery Pipeline view
- - Pick a name for your view
- - Components - Add
- - Choose a Name
- - Initial Job `service-main`
-
-
-### NICE!
-![pipeline](images/pipeline-view.png)
-
-
 ## The sonar job
 ![pipeline](images/pipeline-sonar.png)
 
 
-### Sonar (1/4)
+### Docker - Sonar (1/5)
 We will add Sonar to keep track of our code quality.
 
-
-### Jenkins - Sonar (2/4)
-- Create new item
- - Item name: `service-sonar`
- - Type: `Copy service-build`
- - Delivery pipeline: `Stage Name=QA, Task Name=sonar`
- - Change build step: Invoke Gradle script
-   - Use gradle wrapper
-   - Tasks: sonarRunner
- - Save
-
-
-### Docker - Sonar (3/4)
-First we stop all of our docker services, and add the Sonar docker image to our `docker-compose` file.
-- Stop the docker services using docker-compose (in /mnt/sda1/cursus-docker/continuous)
+- First we will stop all of our docker services, and add the Sonar docker image to our `docker-compose` file.
+  - Switch back to the `ssh` session of our Docker workshop VM
+  - Stop the docker services using `docker-compose` 
 ```
 docker-compose stop
 ```
 
 
-### Docker - Sonar (4/8)
-- Edit the docker-compose.yml file.
+### Docker - Sonar (2/5)
+- Edit the `docker-compose.yml` file in `/mnt/sda1/cursus-docker/continuous`
 - Add a container for the database:
 
-```
+```json
 sonardb:
   image: postgres:9
   environment:
@@ -706,10 +609,10 @@ sonardb:
 ```
 
 
-### Docker - Sonar (5/8)
+### Docker - Sonar (3/5)
 - Add a container for Sonar:
 
-```
+```json
 sonar:
   image: sonarqube:5.1.1
   links:
@@ -724,10 +627,10 @@ sonar:
 ```
 
 
-### Docker - Sonar (6/8)
+### Docker - Sonar (4/5)
 - And link the two Sonar containers to the Jenkins container
 - In the `links:` section of the Jenkins configuration add links from Jenkins to Sonar (see below).
-- Save the docker-compose.yml file
+- Save the `docker-compose.yml` file
 
 ```
 jenkins:
@@ -740,27 +643,22 @@ jenkins:
 ```
 
 
-### Docker - Sonar
+### Docker - Sonar (5/5)
 - Restart compose
-
 ```
 docker-compose up -d
 ```
+- When that is finished, the (empty) SonarQube dashboard should be visible at `http://<<docker-machine-ip>>:9000/`
 
 
-### Jenkins - Sonar (7/8)
-- Configure `service-sonar` job
-- Edit post build action: Trigger parameterized build on other projects
-  - projects to build: `service-deploy`
-- Save
-
-
-### Jenkins - Sonar (8/8)
-- Configure job `service-stop`
-  - Edit post build action: Trigger parameterized build on other projects
-    - projects to build: `service-sonar`
-- Save and test by starting the `main` project.
-- Contact Sonar dashboard at `http://<< docker-machine-ip >>:9000/`
+### Jenkins - job Sonar
+Back to Jenkins to include Sonar in our pipeline
+- Go edit the configuration in Jenkins of item `service-sonar`.
+- Add build step: **Invoke Gradle script**
+   - Use gradle wrapper
+   - Tasks: `sonarRunner`
+- Save and test the pipeline by starting the `service-main` project.
+- Check the results at `http://<< docker-machine-ip >>:9000/`
 
 
 And you are..
