@@ -667,5 +667,3 @@ This is just one way of setting up a simple Continuous Delivery pipeline.
 You might encounter clusters of Docker engines and other ways of controlling where and how containers will be created, started, stopped, etc...
 
 This solution is a simple one, but gives you some idea of how a CD like solution might look like and the various Docker commands it relates to.
-
-We provided a base level of knowledge for you to investigate and discover more of Docker by yourself. The last chapter provides you some interesting links with more useful Docker material. 
