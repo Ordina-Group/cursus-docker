@@ -24,7 +24,3 @@
 !SUB
 ### Docker is a Container System for Code ...
 ![solution2](images/06_container-system-as-code.jpg)
-
-!SUB
-### VM vs Containers
-![contenaterVsVM](images/07_vm-compare.jpg)

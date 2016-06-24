@@ -1,8 +1,10 @@
 #  Hello Docker
 ![docker-logo](images/what_is_docker.jpg)
 
+
 !SUB
-![architecture](images/Docker-API-infographic-container-devops-nordic-apis.png)
+### VM vs Containers
+![contenaterVsVM](images/07_vm-compare.jpg)
 
 
 !SUB
@@ -11,41 +13,12 @@
 
 
 !SUB
+![architecture](images/Docker-API-infographic-container-devops-nordic-apis.png)
+
+
+!SUB
 ## Docker stages
 ![stages](images/docker-stages.png)
-
-
-!SUB
-## The Life of a Container  
-
-!SUB
-## Image
-BUILD an Image from a Dockerfile  
-
-!SUB
-## Birth  
-RUN (create+start) a container  
-
-!SUB
-## Reproduction  
-COMMIT (persist) a container to a new image  
-RUN a new container from an image  
-
-!SUB
-## Sleep  
-STOP or KILL a running container  
-
-!SUB
-## Wake  
-START a stopped container  
-
-!SUB
-## Death  
-RM (delete) a stopped container  
-
-!SUB
-## Extinction  
-RMI a container image (delete image)
 
 !SUB
 ### The Life of a Container by example.
@@ -54,8 +27,8 @@ RMI a container image (delete image)
  docker pull mongo:latest     # pull the mongo image from the registry
  docker inspect mongo:latest  # list information of the container
  docker run -p 27017:27017 \
-        --name my-mongo -d \
-        mongo:latest          # create and start a mongo container
+        --name my-mongo -d \  # create and start a mongo container
+        mongo:latest          
  docker inspect my-mongo      # inspect the running container info
  docker logs -f my-mongo      # tail the log of the container
  docker stop my-mongo         # stop the container
@@ -63,6 +36,8 @@ RMI a container image (delete image)
  docker rmi mongo:latest      # remove the image from the local repo
 ```
 
+!Note
+Inzoomen met alt+click
 
 !SUB
 ### Information of a containter.
