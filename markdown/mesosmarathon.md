@@ -28,6 +28,8 @@ Marathon is designed to launch long-running applications, and, in Mesosphere, se
 - Building the stack will take some time. Continue in the next slide if you do not want to follow the progress of building the stack
 
 ```
+cd /mnt/sda1/cursus-docker/mesos-marathon
+
 # Stop all Containers
 docker stop $(docker ps -a -q)
 
@@ -38,7 +40,6 @@ sudo /mnt/sda1/cursus-docker/basics-docker/compose/install-compose.sh
 sed -i s/192.168.99.100/<< docker-machine-ip >>/g docker-compose.yml
 
 # Build the Mesos and Marathon cluster
-cd /mnt/sda1/cursus-docker/mesos-marathon
 docker-compose build
 
 # Start the cluster
@@ -52,9 +53,9 @@ The stack consists of 7	Docker images
 <small>
 - **zookeeper:** <br>Software that is used to coordinate the master nodes
 
-- **mesosmaster:** <br>The master a node in the cluster and orchestrates the running of tasks on slaves
+- **mesosmaster:** <br>The Mesos Master is a node in the cluster which orchestrates the running of tasks on slaves
 
-- **mesosslave:** <br>A Mesos slave is a Mesos instance which offers resources to the cluster. They are the �worker� instances - tasks are allocated to the slaves by the Mesos master.
+- **mesosslave:** <br>A Mesos Slave is a Mesos instance which offers resources to the cluster. They are the worker instances - tasks are allocated to the slaves by the Mesos master.
 
 - **marathon:** <br> Organizes and manages services deployed (what is deployed where, what ports, what configuration, etc)
 
@@ -78,7 +79,7 @@ Marathon manages the services that will manage deployed on the Mesos cluster. Th
 
 
 ## Stack ingedients - Others
-The Zookeer, gateway and secretary images are here support Mesos or Marathon, but are not within our scope of interrest. There needed to get the show on the road, but will not require your attention.
+The Zookeeper, Gateway and Secretary images are here support Mesos or Marathon, but are not within our scope of interrest. They are needed to get the show on the road, but will not require your attention.
 
 The marathonsubmit image however does require some attention. More on that later in this course.
 
