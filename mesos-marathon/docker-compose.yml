@@ -64,7 +64,7 @@ marathonsubmit:
 
 
 gateway:
-  image: meltwater/proxymatic:1.9.0
+  image: meltwater/proxymatic:1.7.5
 #  build: ../proxymatic
   net: host
   environment:
