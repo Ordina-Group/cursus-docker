@@ -36,6 +36,8 @@ Marathon is designed to launch long-running applications, and, in Mesosphere, se
 - Building the stack will take some time. Continue in the next slide if you do not want to follow the progress of building the stack
 
 ```
+cd /mnt/sda1/cursus-docker/mesos-marathon
+
 # Stop all Containers
 docker stop $(docker ps -a -q)
 
@@ -46,7 +48,6 @@ sudo /mnt/sda1/cursus-docker/basics-docker/compose/install-compose.sh
 sed -i s/192.168.99.100/<< docker-machine-ip >>/g docker-compose.yml
 
 # Build the Mesos and Marathon cluster
-cd /mnt/sda1/cursus-docker/mesos-marathon
 docker-compose build
 
 # Start the cluster
