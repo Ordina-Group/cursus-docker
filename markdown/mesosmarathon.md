@@ -102,6 +102,26 @@ This demo application was deployed by the *marathon-submit* container which is p
 
 
 ## Now what the @#!& happend !?
+At this moment you have started docker-compose NON-daemon mode and that way it is hijacking you console prompt. Start a second instance of the **docker quickstart terminal** and ssh into your workshop VM.
+```
+                        ##         .
+                  ## ## ##        ==
+               ## ## ## ## ##    ===
+           /"""""""""""""""""\___/ ===
+      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  ===- ~~~
+           \______ o           __/
+             \    \         __/
+              \____\_______/
+
+$ docker-machine ssh workshop
+
+docker@workshop:~$ cd /mnt/sda1/cursus-docker/mesos-marathon/
+
+```
+You now have one terminal with the logging and another for your commands
+
+
+## Now what the @#!& happend !?
 Take a look at the Dockerfile of marathon-submit. You should notice this:
 ```
 # Default entrypoint submits all files into Marathon
@@ -195,7 +215,7 @@ We are going to run a different (web)application "srenkens/wolfenstein3d"
 ## Instructions
 - Create a new **wolf3d.yml** file for the application
   - You can use the yml from the demo webapp as a starting point
-- Change the networkmode from HOST to BRIGE (mandatory!).
+- Change the networkmode from HOST to BRIDGE (mandatory!).
   - You need to change more then just the mode, make sure you read: https://mesosphere.github.io/marathon/docs/ports.html
 - Deploy at least 2 instances
 - Application should be made available at: 
