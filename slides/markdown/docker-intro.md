@@ -2,8 +2,8 @@
 ![docker-logo](images/what_is_docker.jpg)
 
 !SUB
-### Docker architecture
-![architecture](images/architecture.jpg)
+![architecture](images/Docker-API-infographic-container-devops-nordic-apis.png)
+
 
 !SUB
 ### Docker architecture
