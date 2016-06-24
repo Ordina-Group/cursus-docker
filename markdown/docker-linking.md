@@ -7,10 +7,10 @@
 !SUB
 ### DOcker networking topology
 ![test](images/docker-network-topology.png)
-- none, no networking
-- bridge, each container has is own
-- joined, containers shares a single networking
-- hosts, use the host netowrking
+- none: no networking
+- bridge: each container has is own
+- joined: containers shares a single networking
+- hosts: use the host networking
 
 !SUB
 ### Docker networking topology by Example
