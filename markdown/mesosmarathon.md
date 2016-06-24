@@ -87,7 +87,7 @@ Marathon manages the services that will manage deployed on the Mesos cluster. Th
 
 
 ## Stack ingedients - Others
-The Zookeer, gateway and secretary images are here support Mesos or Marathon, but are not within our scope of interrest. There needed to get the show on the road, but will not require your attention.
+The Zookeeper, Gateway and Secretary images are here support Mesos or Marathon, but are not within our scope of interrest. There needed to get the show on the road, but will not require your attention.
 
 The marathonsubmit image however does require some attention. More on that later in this course.
 
