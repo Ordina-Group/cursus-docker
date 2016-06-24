@@ -9,7 +9,6 @@
 - Mesos and Marathon (hands-on)
 
 
-
 ## Who are we?
 
 ||
