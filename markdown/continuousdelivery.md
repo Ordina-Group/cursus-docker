@@ -658,7 +658,7 @@ Back to Jenkins to include Sonar in our pipeline
 - Add build step: **Invoke Gradle script**
    - Use gradle wrapper
    - Tasks: `sonarRunner`
-- Save and test the pipeline by starting the `service-main` project.
+- Save and test the pipeline by starting the `Stickynote pipeline`.
 - Check the results at `http://<< docker-machine-ip >>:9000/`
 
 
