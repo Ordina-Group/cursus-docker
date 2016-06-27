@@ -27,7 +27,7 @@ These are the jobs that you will configure in Jenkins.
 #...some preparations...
 
 
-## Windows and less then 20GB on the C disk ?? (1/3)
+## Windows and less than 20GB on the C disk ?? (1/3)
 ### You're screwed... but there is a solution
 We need to move the docker-machine data to a disk with more free space. Luckily you have the D drive for that!
 - Exit from the SSH session of the `workshop` machine
