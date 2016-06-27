@@ -27,7 +27,7 @@ These are the jobs that you will configure in Jenkins.
 #...some preparations...
 
 
-## Windows and less then 20GB on the C disk ?? (1/3)
+## Windows and less than 20GB on the C disk ?? (1/3)
 ### You're screwed... but there is a solution
 We need to move the docker-machine data to a disk with more free space. Luckily you have the D drive for that!
 - Exit from the SSH session of the `workshop` machine
@@ -417,8 +417,8 @@ The start job will be creating and starting the StickyNote Docker container and 
 This job effectively performs these Docker CLI command but then through the the Docker API.
 ```
 # Pull and create MongoDB container
-docker pull mongodb:3.0.6
-docker create --name test_db mongodb:3.06
+docker pull mongo:3.0.6
+docker create --name test_db mongo:3.0.6
 
 # StickyNote service: No need to pull, since we've build the image on the same Dockerhost. 
 # Therefore it's already available for us.
