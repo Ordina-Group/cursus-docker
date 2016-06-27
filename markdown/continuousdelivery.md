@@ -417,8 +417,8 @@ The start job will be creating and starting the StickyNote Docker container and 
 This job effectively performs these Docker CLI command but then through the the Docker API.
 ```
 # Pull and create MongoDB container
-docker pull mongodb:3.0.6
-docker create --name test_db mongodb:3.06
+docker pull mongo:3.0.6
+docker create --name test_db mongo:3.0.6
 
 # StickyNote service: No need to pull, since we've build the image on the same Dockerhost. 
 # Therefore it's already available for us.
