@@ -62,7 +62,7 @@ $ docker pull nginx
 
 # Next check your list of local images
 $ docker images
-# If this list would be to large, then you can filter by image name
+# If this list would be too large, then you can filter by image name
 $ docker images nginx
 
 # Inspect the nginx image
