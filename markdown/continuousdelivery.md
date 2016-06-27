@@ -110,7 +110,7 @@ git:
 docker-compose up -d
 
 # to inspect the logs
-docker-compose logs git
+docker-compose logs -f git
 
 # Wait until gitlab server has started
 # Look for 'The server is now ready to accept connections' (part of the redis logging)
