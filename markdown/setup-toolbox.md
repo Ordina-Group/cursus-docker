@@ -32,7 +32,6 @@ docker-machine stop default
 
 ## Create the workshop VM
 Create a new VM which will be used for our workshop.
-- You will need around 20GB's of free storage space. For Ordina lappies that requires the VM to be installed on the *D* disk.
 
 ```bash
 docker-machine create workshop --driver virtualbox --virtualbox-cpu-count "4" --virtualbox-memory "8192" --engine-insecure-registry 172.18.18.13/32 --engine-registry-mirror http://172.18.18.13:5000  
