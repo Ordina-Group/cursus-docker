@@ -138,12 +138,11 @@ $ docker images
 
 ### Building a web server with custom content (2/3)
 - Start your new container in the foreground
-  - -d   option is missing, therefore daemon mode is not enabled)
-  - --rm option will remove the container once it shuts down.
-
-```
-$ docker run -p 8080:80 --rm starter/docker
-```
+  - `-d  ` option is missing, therefore daemon mode is not enabled)
+  - `--rm` option will remove the container once it shuts down.
+   ```
+   $ docker run -p 8080:80 --rm starter/docker
+   ```
 - Try to access your webserver using your browser<br>
 `http://< your-docker-machine-ip >:8080/`
 - You might need a Ctrl-F5
@@ -171,28 +170,28 @@ $ docker run --rm -p 8080:80 -v ${PWD}/via-mount:/usr/share/nginx/html nginx
 - When containers are linked, information about a source container can be sent to a recipient container.
 - To establish links, Docker relies on the names of your containers.
 ----
-** For example (do NOT execute this) **
+** For example (do _NOT_ execute this) **
 - First we create a container for our database.
-
-```
-docker run -d --name postgres <image>
-```
+   ```
+   docker run -d --name postgres <image>
+   ```
 - Secondly we link our database to our web container
-
-```
-docker run -d --link postgres:db --name web <image>
-```
+   ```
+   docker run -d --link postgres:db --name web <image>
+   ```
 
 
 ### Docker Compose
-Compose is a tool for defining and running complex applications with Docker. With Compose, you define a multi-container application in a single file, then spin up your application using a single command. Everything needed is started automatically.
-<br><br>
-The next slides will help you use to repeat the steps as shown in this short movie by one of the members of the docker team.<br> <iframe class="stretch" src="https://www.youtube.com/embed/WgQWndFPMpg" frameborder="0" allowfullscreen></iframe>
+Compose is a tool for defining and running complex applications with Docker. 
+With Compose, you define a multi-container application in a single file, then spin up your application using a single command. 
+Everything needed is started automatically.
+<iframe src="https://www.youtube.com/embed/WgQWndFPMpg" frameborder="0" allowfullscreen width="530" height="396"></iframe>
 
 
 ### Docker Compose - Installation
-- By default docker-compose is not available inside a machine provided by docker-machine. 
-- Install docker-compose by using the commands below:
+In the next slides you'll roughly repeat what you saw in the previous demo video, made by a member of the Docker team.
+
+By default docker-compose is not available inside a machine provided by docker-machine, so you need to install it: 
 
 ```
 # Navigate to the basics-docker/compose directory.  
@@ -202,27 +201,26 @@ $ sudo ./install-compose.sh
 
 
 ### Docker Compose
-- With Compose we create two containers that are linked.
+With Compose we create two containers that are linked.
 - The first container contains a python application that serves a simple web page with a counter. This container will be built by Compose.
 - The second container contains a Redis key value store, to store the counter.
-
-```
-# Navigate to the basics-docker/compose directory.  
-$ cd /mnt/sda1/cursus-docker/basics-docker/compose
-
-# Inspect the compose file note the container linking
-$ cat docker-compose.yml
-
-# start and build the containers.
-$ docker-compose up
-```
-- Inspect by curl or a browser the web app is working.
+   ```
+   # Navigate to the basics-docker/compose directory.  
+   $ cd /mnt/sda1/cursus-docker/basics-docker/compose
+   
+   # Inspect the compose file note the container linking
+   $ cat docker-compose.yml
+   
+   # start and build the containers.
+   $ docker-compose up
+   ```
+- Inspect with `curl` or a browser the web app is working.
 - Hint: port * **is not** * 8080
 - Use Ctrl-C to stop the container
 
 
 ### Clean up
-You can remove docker containers by executing the command `docker rm`  
+You can remove docker containers by executing the command `docker rm`. 
 The switch `-v` will remove all implicit mounted volumes and the switch `-f` will remove running containers as well.  
 Using the command for the `-f` switch, `$(docker ps -q -a)` will list ids of all docker containers.
 
