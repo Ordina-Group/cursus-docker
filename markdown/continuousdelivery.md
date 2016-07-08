@@ -39,18 +39,18 @@ docker@workshop:~$ exit
     ```
 docker-machine stop workshop
     ```
-- Do the same for other running docker-machines (you can list them with docker-machine ls)
+- Do the same for other running docker-machines (you can list them with `docker-machine ls`)
 - Continue on next slide
 
 
 ## Windows and less than 20GB on the C disk  (2/3)
-- Using Windows explorer, create a folder on a disk that does have more then 20GB available (e.g. `D:\docker-machines`)
-- Using Windows explorer, move the folder `C:\Users\<username>\.docker\machine` to your created directory.
-- Open a Command prompt with administrator rights 
-  - (startmenu, type `cmd`, right-click `cmd`, run as administrator)
+- Using Windows explorer, create a folder on a disk with more than 20GB free space (e.g. `D:\docker-machines`)
+- Move the folder `C:\Users\<username>\.docker\machine` to your created directory.
+- Open a Command prompt with administrator rights
+  - <div style="font-size: 0.8em">Windows **Start** menu, type `cmd`, right-click `cmd.exe`, click *"run as administrator"* </div>
 - Create a symbolic link on the original location and point it to the location where your data is stored
 ```
-mklink /D  c:\Users\<username>\.docker\machine d:\docker-machines\machine
+mklink /D c:\Users\<username>\.docker\machine d:\docker-machines\machine
 ```
 
 
