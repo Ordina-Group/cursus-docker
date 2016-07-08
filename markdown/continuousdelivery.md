@@ -1,25 +1,26 @@
 ## Continuous Delivery using Docker
-*Embedding Docker into your Continuous Integration*
+*In this chapter you will learn how you can make use of Docker in your Continuous Delivery pipeline*
 
 ![jenkins-docker](images/docker-jenkins.png)
 
 
 ## Some internals
-- You will build a Continuous Delivery setup for a simple REST service based on Spring Boot
+We've prepared a working Continuous Delivery setup for a simple REST service based on Spring Boot
 - The REST service is a service which provides "Sticky Notes" functionality
 - Data of the Sticky Notes REST service will be stored in a MongoDB
 - The Sticky Notes REST service is built using Gradle
 - We build a fat jar and distribute that jar using Docker controlled by Jenkins
 
 
-## Container overview
+## Docker container overview
+In the next steps, we will ask you to configure only the missing Jenkins configuration that make use of Docker.
 When you are done, you will have these containers running. Some will be maniputed by Jenkins and some by using docker-compose.
  
 ![pipeline](images/container-overview-ci-all.png)
 
 
 ## The Pipeline
-These are the jobs that you will configure in Jenkins.
+These are the jobs that take part of the pipeline in Jenkins.
 ![pipeline](images/pipeline-complete.png)
 
 
@@ -168,26 +169,6 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 ```
 
 
-### Setting up Jenkins - plugins
-Since we try to automate most of the things we are doing, we also automate and manage our Jenkins plugins by specifying them in the `plugins.txt` file.
-You can find it in the same dir as the `Dockerfile`. It has the following content: 
-
-```
-scm-api:0.2
-jquery:1.7.2-1
-parameterized-trigger:2.17
-authentication-tokens:1.1
-credentials:1.22
-docker-build-step:1.33
-docker-commons:1.2
-git-client:1.19.0
-git:2.4.0
-gradle:1.24
-token-macro:1.9
-delivery-pipeline-plugin:0.9.8
-```
-
-
 ### Setting up Jenkins - docker-compose
 The containers for our Continuous Delivery environment are managed by Docker Compose, as seen for GitLab. Now we will add the Jenkins container to the configuration.
 - First adjust Jenkins **data** folder with sufficient rights
@@ -273,38 +254,6 @@ For this workshop Jenkins comes configured with several jobs that form a *Delive
 ![pipeline](images/pipeline-complete.png)
 
 
-## The main job
-![pipeline](images/pipeline-main.png)
-
-
-### Jenkins - Job main
-The **main** job is a simple job that is responsible for checking out the StickyNote GIT repo. Everytime you want to start the pipeline, you will do so by starting this job.
-
-- Inspect the configuration of Jenkins item `service-main`
-- In the Delivery Pipeline Configuration it's put in the first **Stage** we called `build` with **Task Name** `clean`
-- It sets up a workspace with Git repo `http://git/root/stickynote.git` (remember the linked container was also named `git`)
-- Then it triggers the build of another project `service-build` with predefined parameters that are passed onto all the next items:
-    ```text
-    SOURCE_BUILD_NUMBER=${BUILD_NUMBER}
-    SOURCE_BUILD_WORKSPACE=${WORKSPACE}
-    VERSION=1.0.${SOURCE_BUILD_NUMBER}
-    ```
-
-
-## The Build job
-![pipeline](images/pipeline-build.png)
-
-
-### Jenkins - Job build
-The **build** job runs the Gradle "build" task. This compiles our code and run the unit tests.
-
-- Inspect the configuration of Jenkins item `service-build`
-- In the Delivery Pipeline Configuration it's the `build` task in the first *Stage* also called `build`
-- The workspace directory is passed through from `service-main` with parameter `${SOURCE_BUILD_WORKSPACE}`
-- It invokes the task `build` of a Gradle script
-- Then it triggers the build of project `service-package` with the same set of predefined parameters
-
-
 ## The package job
 ![pipeline](images/pipeline-package.png)
 
@@ -343,32 +292,9 @@ CMD ["java","-jar","/stickynote-service.jar"]
 
 
 ### Jenkins - Pipeline (2/2)
-- The pipeline will also go through the stages `QA` and `Release` we have not looked at yet. These jobs are still empty, so that won't hurt.
+- The pipeline will also go through the stages `QA` and `Release` we have not looked at yet. These jobs still need some Docker configurations, but for now it won't hurt.
 
 ![pipeline](images/pipeline-view.png)
-
-
-## DockerUI
-In the next part we are creating many docker containers. Just for the fun we install a DockerUI on our host.
-
-DockerUI is a web interface for the Docker Remote API. Is gives us a view of running containers and allows us to perform commands like stop, start, remove, etc. 
-
-
-### Adding docker ui
-
-- Edit `docker-compose.yml` (in `/mnt/sda1/cursus-docker/continuous`) and add the `dockerui` section
-
-```json
-dockerui:
-  image: abh1nav/dockerui
-  privileged: true
-  ports:
-    - "9090:9000"
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-```
-- Use `docker-compose up -d` to start the dockerui container.
-- Browse to `http://<< docker-machine-ip >>:9090` to see which containers are running.
 
 
 ## The start job
