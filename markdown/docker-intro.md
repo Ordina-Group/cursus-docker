@@ -40,7 +40,7 @@
 Inzoomen met alt+click
 
 !SUB
-### Information of a containter.
+### Information of a container.
 
 | command      | description           |
 | ------------ |---------------|
@@ -50,7 +50,7 @@ Inzoomen met alt+click
 | events |gets events from container.|
 | port |shows public facing port of container.|
 | top |shows running processes in container.|
-| stats |shows containers' resource usage statistics.|
+| stats |shows container's resource usage statistics.|
 
 !SUB
 ## Dockerfile
