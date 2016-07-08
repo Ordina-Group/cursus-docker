@@ -20,11 +20,9 @@ Marathon is a popular PaaS or container orchestration system scaling to thousand
 Marathon is designed to launch long-running applications, and, in Mesosphere, serves as a replacement for a traditional init system. It has many features that simplify running applications in a clustered environment, such as high-availability, node constraints, application health checks, an API for scriptability and service discovery, and an easy to use web user interface.
 
 
-# Let's get started
-
-## 
-- Because installing a complex stack like this is not the goal of this course, we will provide you with your own Mesos and Marathon stack.
-- Execute the commands below to clean up and get the cluster up and running
+## Let's get started
+Because installing a complex stack like this is not the goal of this course, we will provide you with your own Mesos and Marathon stack.
+Execute the commands below to clean up and get the cluster up and running:
 
 ```
 cd /mnt/sda1/cursus-docker/mesos-marathon
@@ -45,27 +43,22 @@ docker-compose build
 docker-compose up
 
 ```
-- Building the stack will take some time. Continue in the next slide if you do not want to follow the progress of building the stack
+Building the stack will take some time. Continue in the next slide if you do not want to follow the progress of building the stack.
 
 
-### Stack ingredients
-The stack consists of 7	Docker images
-<small>
-- **zookeeper:** <br>Software that is used to coordinate the master nodes
+## Stack ingredients
+The stack consists of 7	Docker images:
 
-- **mesosmaster:** <br>The Mesos Master is a node in the cluster which orchestrates the running of tasks on slaves
-
-- **mesosslave:** <br>A Mesos Slave is a Mesos instance which offers resources to the cluster. They are the worker instances - tasks are allocated to the slaves by the Mesos master.
-
-- **marathon:** <br> Organizes and manages services deployed (what is deployed where, what ports, what configuration, etc)
-
-- **marathonsubmit:** <br> A helper image for submitting jobs to marathon
-
-- **gateway:** <br> A proxy that forwards TCP and UDP connections to where services are currently running on the clusters
-
-- **secretary:** <br> A little tool to distrubute keys and password across the cluster in a secure manner
-
-</small>
+| | |
+| --- | ---
+| ** zookeeper ** | <div style="font-size: 0.8em">Software that is used to coordinate the master nodes</div>
+| ** mesosmaster ** | <div style="font-size: 0.8em">The Mesos Master is a node in the cluster which orchestrates the running of tasks on slaves</div>
+| ** mesosslave ** | <div style="font-size: 0.8em">A Mesos Slave is a Mesos instance which offers resources to the cluster. They are the worker instances - tasks are allocated to the slaves by the Mesos master.</div>
+| ** marathon ** | <div style="font-size: 0.8em">Organizes and manages services deployed (what is deployed where, what ports, what configuration, etc)</div>
+| ** marathonsubmit ** | <div style="font-size: 0.8em">A helper image for submitting jobs to marathon</div>
+| ** gateway ** | <div style="font-size: 0.8em">A proxy that forwards TCP and UDP connections to where services are currently running on the clusters</div>
+| ** secretary ** | <div style="font-size: 0.8em">A little tool to distrubute keys and password across the cluster in a secure manner</div>
+| | 
 
 
 ## Stack ingedients - Mesos
