@@ -55,8 +55,7 @@ mklink /D c:\Users\<username>\.docker\machine d:\docker-machines\machine
 
 
 ## Windows and less than 20GB on the C disk  (3/3)
-- Return to your quickstart terminal
-- Start the workshop machine
+- Return to your quickstart terminal and start the workshop machine
     ```
 docker-machine start workshop
     ```
@@ -127,9 +126,10 @@ Let's perform the basic configuration of GitLAB
 - Login with the default user and password.
   - username: `root`
   - password: `5iveL!fe`
-- Next you have to set a new password
- - If you wanna be lazy.. you can change it to the original `5iveL!fe` password
-- After setting the password login again.
+- Next you have to set a new password.
+ - If you wanna be lazy.. you can change it to the original `5iveL!fe` password.
+- After changing the password you land back on the login page.
+  - Login again with username `root` and the new password.
 
 
 ### Setting up GitLab - Configure
@@ -141,7 +141,7 @@ We will clone a remote repo which contains our StickyNote sources. That cloned r
   - Visibility Level: `Public`
 - Create project
 
-You can now check the sources (and change them if you like) using the GitLAB webinterface.
+You can now view the source files (and also change them) using the GitLAB webinterface.
 
 
 ## Setting up Jenkins
@@ -242,10 +242,11 @@ Jenkins requires some configuration before it can interact with Docker.
 ### Jenkins - Global configuration
 - First we have to set some global configurations in Jenkins.
   - Open the Jenkins application in your browser
-  - Go to: Manage Jenkins -> Configure system
-  - Search for: `Docker Builder` and provide the url: `unix:///var/run/docker.sock`
-  - Press the **Apply** (Toepassen) button at the bottom of the page
-  - Now you can press `Test Connection`
+  - In the left menu pick **Beheer Jenkins** (or *Manage Jenkins*)
+  - Then from the main list select **Configureer Systeem** (or *Configure system*)
+  - At the bottom under **Docker Builder** fill in this *Docker URL*: `unix:///var/run/docker.sock`
+  - Press the **Toepassen** (or *Apply*) button at the bottom of the page
+  - Now you can press **Test Connection**
 
 
 ## Jenkins - Delivery pipeline
@@ -311,11 +312,11 @@ The start job will be creating and starting the StickyNote Docker container and 
 
 ### Jenkins - Job service-start (2/3)
 
- - Add build step: **Execute docker command**
+ - Under **Bouwstappen** click **Voeg een bouwstap toe** (or *Add build step*) and pick **Execute docker command**
    - Docker command: **pull image**
    - Image name: `mongo`
    - Tag: `3.0.6`
- - Add build step: **Execute docker command**
+ - Add another build step: **Execute docker command**
    - Docker command: **create container**
    - Image name: `mongo:3.0.6`
    - Container name: `test_db`
@@ -326,12 +327,12 @@ The start job will be creating and starting the StickyNote Docker container and 
   - Docker command: **create container**
   - Image name: `stickynote/stickynote-service:latest`
   - Container name: `test_service`
-  - *Advanced* - Links: `test_db:mongodb`
+  - **Uitgebreid** (or *Advanced*) - Links: `test_db:mongodb`
 - Add build step: **Execute docker command**
   - Docker command: start container(s)
   - Container ID(s): `test_db, test_service`
-  - *Advanced* - Port bindings: `8888:8080`
-  - *Advanced* - Wait for ports:
+  - **Uitgebreid** (or *Advanced*) - Port bindings: `8888:8080`
+  - **Uitgebreid** (or *Advanced*) - Wait for ports:
   ```text
   test_db 27017
   test_service 8080
@@ -404,8 +405,9 @@ The test job perform tests against our running container. Gradle will start a JM
 
 
 ### Jenkins - Job service-tests (2/3)
-- Add build step: **Execute shell script**
+- Add build step: **Voer shell-script uit** (or *Execute shell script*)
   - Command:
+  
 ```
 #!/bin/bash
 dockerhostip=$(/sbin/ip route|awk '/default/ { print $3 }')
@@ -413,9 +415,13 @@ find src/it-test -type f -print0 | xargs -0 sed -i "s/dockerhost/$dockerhostip/g
 find build -type f -print0 | xargs -0 sed -i "s/dockerhost/$dockerhostip/g"
 ```
 
-<hr>
-Background: <br>This piece of bash script replaces every occurence of 'dockerhost' in your job's workspace files with the IP address of your docker host machine.
-<hr>
+----
+
+*Background*:
+
+<small>This piece of bash script replaces every occurence of 'dockerhost' in your job's workspace files with the IP address of your docker host machine.</small>
+
+----
 
 
 ### Jenkins - Job service-tests (3/3)
