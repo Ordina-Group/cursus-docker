@@ -3,7 +3,7 @@
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "rabbitmq:management",
+      "image": "rabbitmq:management:3.6.2-management",
       "network": "BRIDGE",
       "portMappings": [
         { "containerPort": 5672, "servicePort": 5672 },
