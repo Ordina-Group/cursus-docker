@@ -20,10 +20,3 @@ For the hands-on part of the workshop, follow the instructions in the slides.
 https://abc.ordina.nl/docker-workshop/#/5
 
 Start with the "Setup" chapter
-
-
-If ya wanna slack... try one of these ;-)
-
-https://hub.docker.com/r/anapsix/nyancat/
-
-https://hub.docker.com/r/kaminskypavel/mario/

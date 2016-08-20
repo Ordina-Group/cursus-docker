@@ -5,10 +5,8 @@
 
 
 ## Some internals
-We've prepared a working Continuous Delivery setup for a simple REST service based on Spring Boot
-- The REST service is a service which provides "Sticky Notes" functionality
-- Data of the Sticky Notes REST service will be stored in a MongoDB
-- The Sticky Notes REST service is built using Gradle
+We've prepared a working Continuous Delivery setup for a simple Mario webapplication game based on Spring Boot
+- The Mario game will be build using Gradle
 - We build a fat jar and distribute that jar using Docker controlled by Jenkins
 
 
@@ -133,10 +131,10 @@ Let's perform the basic configuration of GitLAB
 
 
 ### Setting up GitLab - Configure
-We will clone a remote repo which contains our StickyNote sources. That cloned repo will be served by GitLAB. 
+We will clone a remote repo which contains our Mario sources. That cloned repo will be served by GitLAB. 
 
 - Go to create new project, fill in the form as follows:
-  - Project path: `stickynote`
+  - Project path: `mario`
   - Import project from: "git Any repo by URL" `https://github.com/OrdinaNederland/cursus-docker-sampleapp.git`
   - Visibility Level: `Public`
 - Create project
@@ -158,7 +156,7 @@ FROM jenkins:1.642.1
 
 USER root
 RUN apt-get update && apt-get install \  
-     wget curl apt-transport-https -y \
+     wget curl apt-transport-https docker.io -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -188,8 +186,6 @@ jenkins:
   ports:
     - "8080:8080"
   user: jenkins:100
-  extra_hosts:
-    mavenrepository: 52.30.98.133
 ```
 
 
@@ -206,8 +202,6 @@ jenkins:
   ports:
     - "8080:8080"
   user: jenkins:100
-  extra_hosts:
-    mavenrepository: 52.30.98.133
   links:
     - git:git
 ```
@@ -235,20 +229,6 @@ Ok, time to get Jenkins up and running.
 You might have noticed that only Jenkins got started after the docker-compose command. Docker-compose is smart enough to notice that the GitLAB container was already running.
 
 
-## Configuring Jenkins
-Jenkins requires some configuration before it can interact with Docker. 
-
-
-### Jenkins - Global configuration
-- First we have to set some global configurations in Jenkins.
-  - Open the Jenkins application in your browser
-  - In the left menu pick **Beheer Jenkins** (or *Manage Jenkins*)
-  - Then from the main list select **Configureer Systeem** (or *Configure system*)
-  - At the bottom under **Docker Builder** fill in this *Docker URL*: `unix:///var/run/docker.sock`
-  - Press the **Toepassen** (or *Apply*) button at the bottom of the page
-  - Now you can press **Test Connection**
-
-
 ## Jenkins - Delivery pipeline
 For this workshop Jenkins comes configured with several jobs that form a *Delivery Pipeline* : an aggregation of several small builds to build, test and deliver our service.
 
@@ -260,7 +240,7 @@ For this workshop Jenkins comes configured with several jobs that form a *Delive
 
 
 ### Jenkins - Job package (1/2)
-The package job creates a Docker image for our StickyNote service. The definition of this image is declared in a Dockerfile.
+The package job creates a Docker image for our Mario service. The definition of this image is declared in a Dockerfile.
 
 - Inspect the configuration of Jenkins item `service-package`
 - In the Delivery Pipeline Configuration it's the `package` task in the `build` stage
@@ -275,18 +255,16 @@ The package job creates a Docker image for our StickyNote service. The definitio
 ```docker
 FROM java:8-jdk
 
-RUN echo 127.0.2.1 mongodb > /etc/hosts; cat /etc/hosts
-
-ADD stickynote-service.jar /
+ADD mario.jar /
 
 EXPOSE 8080
 
-CMD ["java","-jar","/stickynote-service.jar"]
+CMD ["java","-jar","/mario.jar"]
 ```
 
 
 ### Jenkins - Pipeline (1/2)
-- In the main screen of Jenkins you can find a tab called `Stickynote pipeline`. 
+- In the main screen of Jenkins you can find a tab called `Mario pipeline`. 
 - It has not ran yet, so there's nothing yet to see.
 - Start a build of the `service-main` project.
 - Switch to the pipeline view. Notice that `service-main` triggers `service-build` which triggers `service-package`.
@@ -302,58 +280,24 @@ CMD ["java","-jar","/stickynote-service.jar"]
 ![pipeline](images/pipeline-start.png)
 
 
-### Jenkins - Job service-start (1/3)
-The start job will be creating and starting the StickyNote Docker container and the MongoDB database container.
+### Jenkins - Job service-start (1/2)
+The start job will be creating and starting the Mario Docker container.
 
 - Go edit the configuration in Jenkins of item `service-start`
 - In the Delivery Pipeline Configuration it's the `start` task in the `QA` stage
 - When finished it triggers the build of project `service-tests`, which in turn will trigger `service-stop`
 
 
-### Jenkins - Job service-start (2/3)
-
- - Under **Bouwstappen** click **Voeg een bouwstap toe** (or *Add build step*) and pick **Execute docker command**
-   - Docker command: **pull image**
-   - Image name: `mongo`
-   - Tag: `3.0.6`
- - Add another build step: **Execute docker command**
-   - Docker command: **create container**
-   - Image name: `mongo:3.0.6`
-   - Container name: `test_db`
-
-
-### Jenkins - Job service-start (3/3)
-- Add build step: **Execute docker command**
-  - Docker command: **create container**
-  - Image name: `stickynote/stickynote-service:latest`
-  - Container name: `test_service`
-  - **Uitgebreid** (or *Advanced*) - Links: `test_db:mongodb`
-- Add build step: **Execute docker command**
-  - Docker command: start container(s)
-  - Container ID(s): `test_db, test_service`
-  - **Uitgebreid** (or *Advanced*) - Port bindings: `8888:8080`
-  - **Uitgebreid** (or *Advanced*) - Wait for ports:
-  ```text
-  test_db 27017
-  test_service 8080
+### Jenkins - Job service-start (2/2)
+- Under **Bouwstappen** click **Voeg een bouwstap toe** (or *Add build step*) and pick **Voer shell-script uit**
+  ```bash
+  # Remove existing (if exists, if not ignore error (that what '|| true' is for))
+  docker rm -f test_mario || true
+  
+  # Start a fresh instance of a test_mario container based upon the latest mario/mario image build by the package job
+  docker run --name test_mario -p 8888:8080 -d mario/mario:latest
   ```
 - Save
-
-
-### The start job (RECAP)
-This job effectively performs these Docker CLI command but then through the the Docker API.
-```
-# Pull and create MongoDB container
-docker pull mongo:3.0.6
-docker create --name test_db mongo:3.0.6
-
-# StickyNote service: No need to pull, since we've build the image on the same Dockerhost. 
-# Therefore it's already available for us.
-docker create --name test_service -p 8888:8000 --link test_db:mongodb stickynote/stickynote-service:latest 
-
-# Start containers
-docker start test_db test_service
-```
 
 
 ## The stop job
@@ -361,7 +305,7 @@ docker start test_db test_service
 
 
 ### Jenkins - Job service-stop (1/2)
-This job will stop and remove the earlier created containers.
+This job will stop and remove the earlier created container.
 
 - Go edit the configuration in Jenkins of item `service-stop`
 - In the Delivery Pipeline Configuration it's the `stop` task in the `QA` stage
@@ -369,27 +313,15 @@ This job will stop and remove the earlier created containers.
 
 
 ### Jenkins - Job service-stop (2/2)
-- Add build step: **Execute docker command**
-  - Docker command: **Stop container(s)**
-  - Container ID(s): `test_service, test_db`
-- Add build step: **Execute docker command**
-  - Docker command: **Remove container(s)**
-  - Container ID(s): `test_service, test_db`
-  - *Advanced* - Ignore if not found to TRUE
-  - *Advanced* - Remove volumes to TRUE
-  - *Advanced* - Force remove to TRUE
-- Save and test by starting the `Stickynote pipeline` (or `service-main` project).
-
-
-### The stop job (RECAP)
-This job effectively performs these Docker CLI command but then through the the Docker API.
-```
-# Stop the containers
-docker stop test_service test_db
-
-# Remove the containers
-docker rm -f -v test-service test_db 
-```
+- Under **Bouwstappen** click **Voeg een bouwstap toe** (or *Add build step*) and pick **Voer shell-script uit**
+  ```bash
+  # Stop test_mario container
+  docker stop test_mario
+  
+  # Remove the test_mario container
+  docker rm -f test_mario
+  ```
+- Save and test by starting the `Mario pipeline` (or `service-main` project).
 
 
 ## The tests job
@@ -397,7 +329,7 @@ docker rm -f -v test-service test_db
 
 
 ### Jenkins - Job service-tests (1/3)
-The test job perform tests against our running container. Gradle will start a JMeter test and JMeter will use our `test_service` container as its target.
+The test job performs integration tests against our running container. 
 
 - Go edit the configuration in Jenkins of item `service-tests`
 - In the Delivery Pipeline Configuration it's the `test` task in the `QA` stage
@@ -427,12 +359,8 @@ find build -type f -print0 | xargs -0 sed -i "s/dockerhost/$dockerhostip/g"
 ### Jenkins - Job service-tests (3/3)
 - Add build step: **Invoke Gradle script**
    - Use gradle wrapper
-   - Tasks (click on arrow on the far right for multiline content!)
-    ```text
-    integrationTest
-    jmeterRun
-	```
-- Save and test by starting the `Stickynote pipeline`.
+   - Tasks: `integrationTest`
+- Save and test by starting the `Mario pipeline`.
 
 
 ## The deploy job
@@ -451,64 +379,25 @@ The deploy job deploys (no shit) our's service to a "production (demo)" environm
 - Go edit the configuration in Jenkins of item `service-deploy`.
   This is the only task `deploy` of the `Release` stage of the Delivery Pipeline
 
-- Add build step: **Execute docker command**
-   - Docker command: **Tag image**
-   - Name of image: `stickynote/stickynote-service:latest`
-   - Target repository of the new tag: `stickynote/stickynote-service`
-   - The tag to set: `${VERSION}`
-
-
-### Jenkins - Job service-deploy (3/4)
-- Add build step: **Execute docker command**
-  - Docker command: **Remove container(s)**
-  - Container ID(s): `demo_db, demo_service`
-  - *Advanced* - Ignore if not found to TRUE
-  - *Advanced* - Remove volumes to TRUE
-  - *Advanced* - Force remove to TRUE
-- Add build step: **Execute docker command**
-  - Docker command: **create container**
-  - Image name: `mongo:3.0.6`
-  - Container name: `demo_db`
-
-
-### Jenkins - Job service-deploy (4/4)
-- Add build step: **Execute docker command**
-  - Docker command: **create container**
-  - Image name: `stickynote/stickynote-service:${VERSION}`
-  - Container name: `demo_service`
-  - *Advanced* - Links: `demo_db:mongodb`
-- Add build step: **Execute docker command**
-  - Docker command: **start container(s)**
-  - Container ID(s): `demo_db, demo_service`
-  - *Advanced* - Port bindings: `8887:8080`
-  - *Advanced* - Wait for ports:
-
-  ```text
-  demo_db 27017
-  demo_service 8080
+- Under **Bouwstappen** click **Voeg een bouwstap toe** (or *Add build step*) and pick **Voer shell-script uit**
+  ```bash
+  # Tag the image mario/mario:latest with a version number so we can refer to it later
+  docker tag mario/mario:latest mario/mario:${VERSION}
+  
+  # Stop and remove the existing Mario production container
+  docker stop demo_mario || true
+  docker rm -f demo_mario || true
+  
+  # Create and start a new Mario production container
+  docker run --name demo_mario -p 8887:8080 -d mario/mario:${VERSION}
   ```
-- Save and test by starting the `Stickynote pipeline`.
+- Save and test by starting the `Mario pipeline`.
 
 
-### The deploy job (RECAP)
-This job effectively performs these Docker CLI command but then through the the Docker API.
-```
-# Give the image a TAG
-docker tag stickynote/stickynote-service:latest stickynote/stickynote-service:<SOMEVERSIONNUMBER>
+### Start playing!
+The Mario demo application is available at: 
 
-# Stop and remove existing containers
-docker rm -f -v demo_db demo_service
-
-# Create the new containers
-docker create --name demo_db mongodb:3.06
-docker create --name demo_service -p 8887:8000 --link demo_db:mongodb stickynote/stickynote-service:<SOMEVERSIONNUMBER>
-
-# Start containers
-docker start demo_db demo_service
-```
-The sticky note (REST)application is available at: 
-
-`http://<<machine-ip>>:8887/notes/`
+`http://<<machine-ip>>:8887/`
 
 
 ## The sonar job
@@ -590,7 +479,7 @@ Back to Jenkins to include Sonar in our pipeline
 - Add build step: **Invoke Gradle script**
    - Use gradle wrapper
    - Tasks: `sonarRunner`
-- Save and test the pipeline by starting the `Stickynote pipeline`.
+- Save and test the pipeline by starting the `Mario pipeline`.
 - Check the results at `http://<< docker-machine-ip >>:9000/`
 
 
