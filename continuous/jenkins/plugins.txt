@@ -3,8 +3,6 @@ jquery:1.7.2-1
 parameterized-trigger:2.17
 authentication-tokens:1.1
 credentials:1.22
-docker-build-step:1.33
-docker-commons:1.2
 git-client:1.19.0
 git:2.4.0
 gradle:1.24
