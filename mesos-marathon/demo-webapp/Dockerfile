@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.4
 
 # Install Python package manager
 RUN apk -U add python py-pip curl

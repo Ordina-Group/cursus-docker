@@ -1,4 +1,4 @@
-FROM meltwater/secretary:latest
+FROM meltwater/secretary:0.8.0
 
 ADD config-private-key.pem   /keys/config-private-key.pem
 ADD config-public-key.pem  /keys/config-public-key.pem
