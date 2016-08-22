@@ -367,7 +367,7 @@ find build -type f -print0 | xargs -0 sed -i "s/dockerhost/$dockerhostip/g"
 ![pipeline](images/pipeline-deploy.png)
 
 
-### Jenkins - Job service-deploy (1/4)
+### Jenkins - Job service-deploy (1/2)
 The deploy job deploys (no shit) our's service to a "production (demo)" environment. After the tests have succeeded this job will:
 - Tag the image created in the `package` job.
 - Remove the current production containers
@@ -375,7 +375,7 @@ The deploy job deploys (no shit) our's service to a "production (demo)" environm
 - Start the newly created containers
 
 
-### Jenkins - Job service-deploy (2/4)
+### Jenkins - Job service-deploy (2/2)
 - Go edit the configuration in Jenkins of item `service-deploy`.
   This is the only task `deploy` of the `Release` stage of the Delivery Pipeline
 
