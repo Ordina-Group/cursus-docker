@@ -12,9 +12,10 @@ We've prepared a working Continuous Delivery setup for a simple Mario webapplica
 
 ## Docker container overview
 In the next steps, we will ask you to configure only the missing Jenkins configuration that make use of Docker.
-When you are done, you will have these containers running. Some will be maniputed by Jenkins and some by using docker-compose.
  
-![pipeline](images/container-overview-ci-all.png)
+![pipeline](images/ci-container-overview.png)
+
+<div style="font-size: 0.8em">When you are done, you will have these containers running. Some will be maniputed by Jenkins and some by using docker-compose.</div>
 
 
 ## The Pipeline
