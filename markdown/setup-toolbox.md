@@ -34,13 +34,13 @@ docker-machine stop default
 Create a new VM which will be used for our workshop.
 
 ```bash
-docker-machine create workshop --driver virtualbox --virtualbox-cpu-count "4" --virtualbox-memory "8192" --engine-insecure-registry 172.18.18.13/32 --engine-registry-mirror http://172.18.18.13:5000  
+docker-machine create workshop --driver virtualbox --virtualbox-cpu-count "4" --virtualbox-memory "8192" --engine-insecure-registry 172.18.22.44/32 --engine-registry-mirror http://172.18.22.44:5000  
 ```
 
 This machine differs in some ways from the `default` VM:
 - It's assigned 4 CPU's instead of one
 - It's assigned 8 GB's of memory instead of 1 GB
-- It uses a local `Docker registry` to speed up our Docker pulls. You can only connect to it's ip address `172.18.18.29` if you have a (preferrably wired) connection with the `work.local` Ordina network.
+- It uses a local `Docker registry` to speed up our Docker pulls. You can only connect to it's ip address `172.18.22.44` if you have a (preferrably wired) connection with the `work.local` Ordina network.
 
 
 ## Login to your VM
