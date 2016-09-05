@@ -20,6 +20,8 @@ In a way it's kinda like Slack.
   - defines that the Rocket.Chat service [depends on](https://docs.docker.com/compose/compose-file/#/depends-on) the MongoDB service (this defines the startup order)
   - [binds port](https://docs.docker.com/compose/compose-file/#/ports) 3333 on the docker machine to the port that RocketChat exposes itself on
 
+Use this site to check your file for correct yaml syntax: [www.yamllint.com](http://www.yamllint.com/) 
+
 Note:
 solution at: <a href="../../solutions/rocketchat/docker-compose.yml" /> solution </a>
 
