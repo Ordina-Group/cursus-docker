@@ -12,7 +12,7 @@ In a way it's kinda like Slack.
 
 ### Assignment: Run an instance of RocketChat
 
-- Visit [DockerHub.com](https://hub.docker.com) and search for details of the *official* Rocket.Chat docker image.
+- Visit [https://hub.docker.com/](https://hub.docker.com) and search for details of the *official* Rocket.Chat docker image.
 - Create a [docker-compose file](https://docs.docker.com/compose/compose-file/) (in [v2 format](https://docs.docker.com/compose/compose-file/#/version-2)) that:
   - contains two services:
     1. Rocket.Chat service
