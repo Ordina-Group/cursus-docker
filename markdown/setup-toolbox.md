@@ -34,7 +34,7 @@ docker-machine stop default
 Create a new VM which will be used for our workshop.
 
 ```bash
-docker-machine create workshop --driver virtualbox --virtualbox-cpu-count "4" --virtualbox-memory "8192" --engine-insecure-registry 172.18.18.28/32 --engine-registry-mirror http://172.18.18.28:5000  
+docker-machine create workshop --driver virtualbox --virtualbox-cpu-count "4" --virtualbox-memory "8192" --engine-insecure-registry 172.18.18.32/32 --engine-registry-mirror http://172.18.18.32:5000  
 ```
 
 This machine differs in some ways from the `default` VM:
