@@ -63,7 +63,7 @@ Each Dockerfile is a script, composed of various commands and arguments listed s
 FROM java:8-jre
 MAINTAINER Sebastiaan Renkens <srenkens@gmail.com>
 
-ADD some-awesome-application.jar
+ADD some-awesome-application.jar /some-awesome-application.jar
 
 EXPOSE 8080
 
